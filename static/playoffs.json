@@ -1,0 +1,208 @@
+[
+	{
+		"hometeam" : "Vancouver Canucks",
+		"awayteam" : "Calgary Flames",
+		"predictions" :
+			[
+				{
+				"name" : "Adam",
+				"team" : "Vancouver Canucks",
+				"games" : 7 
+				},
+				{
+					"name" : "Susan",
+				"team" : "Vancouver Canucks",
+				"games" : 7 
+				},
+				{
+					"name" : "Angela",
+					"team" : "Calgary Flames",
+					"games" : 4
+				}
+			],
+		"result" : {
+			"team" : "Calgary Flames",
+			"games" : 6
+		}
+	},
+	{
+		"hometeam" : "Montreal Canadiens",
+		"awayteam" : "Ottawa Senators",
+		"predictions" :
+			[
+				{
+					"name" : "Adam",
+					"team" : "Montreal Canadiens",
+					"games" : 6
+				},
+				{
+					"name" : "Susan",
+					"team" : "Montreal Canadiens",
+					"games" : 5 
+				},
+				{
+					"name" : "Angela",
+					"team" : "Montreal Canadiens",
+					"games" : 4
+				}
+			],
+		"result" : {
+			"team" : "Montreal Canadiens",
+			"games" : 6
+		}
+	},
+	{
+		"hometeam" : "Washington Capitals",
+		"awayteam" : "New York Islanders",
+		"predictions" :
+			[
+				{
+					"name" : "Adam",
+					"team" : "New York Islanders",
+					"games" : 6
+				},
+				{
+					"name" : "Susan",
+					"team" : "New York Islanders",
+					"games" : 7 
+				},
+				{
+					"name" : "Angela",
+					"team" : "Washington Capitals",
+					"games" : 4
+				}
+			]
+	},
+	{
+		"hometeam" : "New York Rangers",
+		"awayteam" : "Pittsburgh Penguins",
+		"predictions" :
+			[
+				{
+					"name" : "Adam",
+					"team" : "New York Rangers",
+					"games" : 5
+				},
+				{
+					"name" : "Susan",
+					"team" : "New York Rangers",
+					"games" : 7 
+				},
+				{
+					"name" : "Angela",
+					"team" : "New York Rangers",
+					"games" : 5
+				}
+			],
+		"result" : {
+			"team" : "New York Rangers",
+			"games" : 5
+		}
+	},
+	{
+		"hometeam" : "Tampa Bay Lightning",
+		"awayteam" : "Detroit Red Wings",
+		"predictions" :
+			[
+				{
+					"name" : "Adam",
+					"team" : "Detroit Red Wings",
+					"games" : 6
+				},
+				{
+					"name" : "Susan",
+					"team" : "Detroit Red Wings",
+					"games" : 7 
+				},
+				{
+					"name" : "Angela",
+					"team" : "Detroit Red Wings",
+					"games" : 7 
+				}
+			]
+	},
+	{
+		"hometeam" : "St Louis Blues",
+		"awayteam" : "Minnesota Wild",
+		"predictions" :
+			[
+				{
+					"name" : "Adam",
+					"team" : "St Louis Blues",
+					"games" : 6
+				},
+				{
+					"name" : "Susan",
+					"team" : "Minnesota Wild",
+					"games" : 6
+				},
+				{
+					"name" : "Angela",
+					"team" : "St Louis Blues",
+					"games" : 6
+				}
+			],
+		"result" : {
+			"team" : "Minnesota Wild",
+			"games" : 6
+		}
+	},
+	{
+		"hometeam" : "Anaheim Ducks",
+		"awayteam" : "Winnipeg Jets",
+		"predictions" :
+			[
+				{
+					"name" : "Adam",
+					"team" : "Anaheim Ducks",
+					"games" : 5
+				},
+				{
+					"name" : "Susan",
+					"team" : "Winnipeg Jets",
+					"games" : 7
+				},
+				{
+					"name" : "Angela",
+					"team" : "Winnipeg Jets",
+					"games" : 4
+				}
+			],
+		"result" : {
+			"team" : "Anaheim Ducks",
+			"games" : 4
+		}
+	},
+	{
+		"hometeam" : "Nashville Predators",
+		"awayteam" : "Chicago Blackhawks",
+		"predictions" :
+			[
+				{
+					"name" : "Adam",
+					"team" : "Chicago Blackhawks",
+					"games" : 6
+				},
+				{
+					"name" : "Susan",
+					"team" : "Nashville Predators",
+					"games" : 6
+				},
+				{
+					"name" : "Angela",
+					"team" : "Nashville Predators",
+					"games" : 7
+				}
+			],
+		"result" : {
+			"team" : "Chicago Blackhawks",
+			"games" : 6
+		}
+	}
+
+
+]
+
+
+
+

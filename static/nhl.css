@@ -1,0 +1,70 @@
+
+.hometeam {
+	float:left;
+}
+
+.awayteam {
+	float:right;
+}
+
+.matchup {
+	width: 60%;
+	margin-left: auto;
+    margin-right: auto;
+}
+
+.teamNames {
+	width: 100%;
+	text-align:center;
+}
+
+.vsCenter {
+    display: inline-block;
+    width:100px;
+    height: 130px;
+}
+
+.team {
+
+}
+
+.teamLogo {
+	width: 100px;
+	height: 100px;
+
+	-moz-box-shadow: 3px 3px 5px #000; 
+    -webkit-box-shadow: 3px 3px 5px #000; 
+    box-shadow: 3px 3px 5px #000; 
+}
+
+.result {
+	text-align:center;
+}
+
+.predictionList {
+
+}
+
+.prediction {
+    width: 50%;
+    float: left;
+    text-align:center;
+}
+
+.predictionResult {
+    width: 50%;
+	float: right;
+	text-align:center;
+}
+
+.roundTitle {
+	text-align: center;
+}
+
+.scoreSummary {
+	width: 60%;
+	margin-left: auto;
+    margin-right: auto;
+	border-style: solid;
+	text-align: center;	
+}
