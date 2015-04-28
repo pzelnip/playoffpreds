@@ -64,7 +64,7 @@ def fmt_result(result):
 def nhl2():
     with open('static/playoffs.json', 'r') as fobj:
         content = "".join(fobj.readlines())
-    preds = json.loads(content)
+    rounds = json.loads(content)
 
     output = """
 <html>
@@ -75,55 +75,58 @@ def nhl2():
 
 <body>
 
-<h2 class="roundTitle">Round 1</h2>
-"""
+""" 
 
     scores = defaultdict(int)
-    for series in preds:
-        result = series.get('result', None)
+    for round in rounds:
         output += """
-<div class="matchup">
-	<div class="teamNames">
-		<div class="team hometeam">
-        %s<br>
-        <img src="%s" class="teamLogo">
-		</div>
-		<div class="vsCenter">
-		Vs
-		</div>
-		<div class="team awayteam">
-			%s<br>
-            <img src="%s" class="teamLogo">
-		</div>
-	</div>
-""" % (series['hometeam'], team_img(series['hometeam']), series['awayteam'], team_img(series['awayteam']))
+<h2 class="roundTitle">Round %s</h2>""" % round['round']
 
-        output += """
-	<div class="result">%s</div>
-    <div class="predictionList">
-        """ % fmt_result(result)
- 
-        for prediction in series['predictions']:
-            msg, score = pred_score(prediction, result)
-            name = prediction['name']
-            scores[name] += score
+        for series in round['roundPreds']:
+            result = series.get('result', None)
+            output += """
+    <div class="matchup">
+    	<div class="teamNames">
+    		<div class="team hometeam">
+            %s<br>
+            <img src="%s" class="teamLogo">
+    		</div>
+    		<div class="vsCenter">
+    		Vs
+    		</div>
+    		<div class="team awayteam">
+    			%s<br>
+                <img src="%s" class="teamLogo">
+    		</div>
+    	</div>
+    """ % (series['hometeam'], team_img(series['hometeam']), series['awayteam'], team_img(series['awayteam']))
 
             output += """
-		<div class="prediction">
-            %s says %s in %s
-        </div>
-		<div class="predictionResult">
-			%s
-		</div>
-            """ % (name, prediction['team'], prediction['games'], msg)
+    	<div class="result">%s</div>
+        <div class="predictionList">
+            """ % fmt_result(result)
+     
+            for prediction in series['predictions']:
+                msg, score = pred_score(prediction, result)
+                name = prediction['name']
+                scores[name] += score
 
-        output += """
-	</div>
-</div>
-<br> <br> <br> <br> <br> <br>
-        """
+                output += """
+    		<div class="prediction">
+                %s says %s in %s
+            </div>
+    		<div class="predictionResult">
+    			%s
+    		</div>
+                """ % (name, prediction['team'], prediction['games'], msg)
 
-        output += "\n"
+            output += """
+    	</div>
+    </div>
+    <br> <br> <br> <br> <br> <br>
+            """
+
+            output += "\n"
 
     output += """
 <br><br><br><br><br><br>
@@ -150,7 +153,7 @@ def nhl():
 
     with open('static/playoffs.json', 'r') as fobj:
         content = "".join(fobj.readlines())
-    preds = json.loads(content)
+    rounds = json.loads(content)
 
     output = "<pre>\n"
 
