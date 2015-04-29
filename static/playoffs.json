@@ -220,18 +220,18 @@
 					[
 						{
 							"name" : "Adam",
-							"team" : "no prediction",
-							"games" : 0 
+							"team" : "Anaheim Ducks",
+							"games" : 6
 						},
 						{
 							"name" : "Susan",
-							"team" : "no prediction",
-							"games" : 0 
+							"team" : "Calgary Flames",
+							"games" : 7
 						},
 						{
 							"name" : "Angela",
-							"team" : "no prediction",
-							"games" : 0
+							"team" : "Calgary Flames",
+							"games" : 5
 						}
 					]
 			},
@@ -242,18 +242,18 @@
 					[
 						{
 							"name" : "Adam",
-							"team" : "no prediction",
-							"games" : 0 
+							"team" : "Chicago Blackhawks",
+							"games" : 6
 						},
 						{
 							"name" : "Susan",
-							"team" : "no prediction",
-							"games" : 0 
+							"team" : "Minnesota Wild",
+							"games" : 6
 						},
 						{
 							"name" : "Angela",
-							"team" : "no prediction",
-							"games" : 0
+							"team" : "Minnesota Wild",
+							"games" : 4
 						}
 					]
 			},
@@ -264,18 +264,18 @@
 					[
 						{
 							"name" : "Adam",
-							"team" : "no prediction",
-							"games" : 0 
+							"team" : "Montreal Canadiens",
+							"games" : 6
 						},
 						{
 							"name" : "Susan",
-							"team" : "no prediction",
-							"games" : 0 
+							"team" : "Montreal Canadiens",
+							"games" : 7 
 						},
 						{
 							"name" : "Angela",
-							"team" : "no prediction",
-							"games" : 0
+							"team" : "Montreal Canadiens",
+ 							"games" : 5
 						}
 					]
 			},
@@ -286,18 +286,18 @@
 					[
 						{
 							"name" : "Adam",
-							"team" : "no prediction",
-							"games" : 0 
+							"team" : "New York Rangers",
+							"games" : 5
 						},
 						{
 							"name" : "Susan",
-							"team" : "no prediction",
-							"games" : 0 
+							"team" : "New York Rangers",
+							"games" : 7
 						},
 						{
 							"name" : "Angela",
-							"team" : "no prediction",
-							"games" : 0
+							"team" : "Washington Capitals",
+							"games" : 7
 						}
 					]
 			}
