@@ -127,7 +127,11 @@
 							"team" : "Detroit Red Wings",
 							"games" : 7 
 						}
-					]
+					],
+				"result" : {
+					"team" : "Tampa Bay Lightning",
+					"games" : 7
+				}
 			},
 			{
 				"hometeam" : "St Louis Blues",
