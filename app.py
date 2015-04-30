@@ -134,7 +134,7 @@ def nhl2():
 <br><br><br>
 
 <div class="scoreSummary">
-<h2 style="text-align: center;">Totals</h2>
+<span class="totalsHeading">Totals</span>
 """
     
     for round_num, round_scores in final_scores.iteritems():
