@@ -77,8 +77,10 @@ def nhl2():
 
 """ 
 
-    scores = defaultdict(int)
+    final_scores = {}
     for round in rounds:
+        scores = defaultdict(int)
+        final_scores[round['round']] = scores
         output += """
 <h2 class="roundTitle">Round %s</h2>""" % round['round']
 
@@ -129,21 +131,38 @@ def nhl2():
             output += "\n"
 
     output += """
-<br><br><br><br><br><br>
+<br><br><br>
 
 <div class="scoreSummary">
 <h2 style="text-align: center;">Totals</h2>
 """
     
-    for k, v in scores.iteritems():
+    for round_num, round_scores in final_scores.iteritems():
         output += """
-    <div class="predictionScore">%s %s points</div>
-        """ % (k, v)
+    <h3 style="text-align: center;">Round %s</h3>
+        """ % round_num
+        for name, score in round_scores.iteritems():
+            output += """
+        <div class="predictionScore">%s %s points</div>
+            """ % (name, score)
 
+    totals = defaultdict(int)
+    for round in final_scores.values():
+        for name, score in round.iteritems():
+            totals[name] += score
+
+
+    output += """<h2 style="text-align: center;">Final Totals</h3>"""
+    for name, score in totals.iteritems():
+            output += """
+        <div class="predictionScore">%s %s points</div>
+            """ % (name, score)
     output += """
 </div>
 
+<div class="centerblock">
 <a href="http://www.sportsnet.ca/hockey/nhl/playoffs/">Sportsnet.ca NHL Playoffs</a>
+</div>
 </body>
 </html>
     """
