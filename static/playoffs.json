@@ -259,7 +259,11 @@
 							"team" : "Minnesota Wild",
 							"games" : 4
 						}
-					]
+					],
+				"result" : {
+					"team" : "Chicago Blackhawks",
+					"games" : 4
+				}
 			},
 			{
 				"hometeam" : "Montreal Canadiens",

@@ -26,11 +26,20 @@ body {
 .hometeam {
 	float:left;
 	color: #AA4E93;
+
+}
+
+.hometeam::before {
+	content: "Home - ";
 }
 
 .awayteam {
 	float:right;
 	color: #2C4E93;
+}
+
+.awayteam::before {
+	content: "Away - ";
 }
 
 .vsCenter {
