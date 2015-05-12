@@ -237,7 +237,11 @@
 							"team" : "Calgary Flames",
 							"games" : 5
 						}
-					]
+					],
+				"result" : {
+					"team" : "Anaheim Ducks",
+					"games" : 5
+				}
 			},
 			{
 				"hometeam" : "Chicago Blackhawks",
@@ -311,5 +315,56 @@
 			}
 
 		]
+	},
+	{
+		"round" : 3,
+		"roundPreds" : 
+		[
+			{
+				"hometeam" : "Anaheim Ducks",
+				"awayteam" : "Chicago Blackhawks",
+				"predictions" :
+					[
+						{
+							"name" : "Adam",
+							"team" : "TBD",
+							"games" : 0
+						},
+						{
+							"name" : "Susan",
+							"team" : "TBD",
+							"games" : 0
+						},
+						{
+							"name" : "Angela",
+							"team" : "TBD",
+							"games" : 0
+						}
+					]
+			},
+			{
+				"hometeam" : "TBD",
+				"awayteam" : "TBD",
+				"predictions" :
+					[
+						{
+							"name" : "Adam",
+							"team" : "TBD",
+							"games" : 0
+						},
+						{
+							"name" : "Susan",
+							"team" : "TBD",
+							"games" : 0
+						},
+						{
+							"name" : "Angela",
+							"team" : "TBD",
+							"games" : 0
+						}
+					]
+			}
+		]
 	}
+
 ]

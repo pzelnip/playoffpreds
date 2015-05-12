@@ -162,7 +162,7 @@ def nhl2():
 
 <div class="centerblock">
 <a href="http://www.sportsnet.ca/hockey/nhl/playoffs/">Sportsnet.ca NHL Playoffs</a>
-</div>
+
 </body>
 </html>
     """
