@@ -4,6 +4,11 @@ from flask import Flask, jsonify
 
 app = Flask(__name__)
 
+POINTS_FOR_WINNING_TEAM = 2
+POINTS_FOR_NUMBER_OF_GAMES = 1
+POINTS_PER_SERIES = POINTS_FOR_WINNING_TEAM + POINTS_FOR_NUMBER_OF_GAMES
+
+
 def team_img(team):
     imgmap = {
         "anaheim ducks" : "http://www.sportsnet.ca/wp-content/themes/sportsnet-nhl/images/team_logos/200x200/hockey/nhl/anaheim-ducks.png",
@@ -26,6 +31,11 @@ def team_img(team):
     return imgmap.get(team.lower(), 'http://upload.wikimedia.org/wikipedia/en/e/e4/NHL_Logo_former.svg')
 
 
+def format_pred_score_line(name, score, possible):
+    return """
+<div class="predictionScore">%s %s points (out of %s possible, %.0f%%)</div>
+        """ % (name, score, possible, (score * 100.0/ possible))
+
 def pred_score(pred, result):
     foo = ("...", 0)
     if result:
@@ -34,11 +44,11 @@ def pred_score(pred, result):
         picked_games = False
 
         if pred['team'].lower() == result['team'].lower():
-            points += 2
+            points += POINTS_FOR_WINNING_TEAM
             picked_winner = True
 
         if pred['games'] == result['games']:
-            points += 1
+            points += POINTS_FOR_NUMBER_OF_GAMES
             picked_games = True
     
         if picked_winner and picked_games:
@@ -70,11 +80,9 @@ def nhl2():
 <html>
 <head>
 	<link rel="stylesheet" type="text/css" href="static/nhl.css">
-	<title>Playoff Preds</title>
+	<title>Playoff Predictions</title>
 </head>
-
 <body>
-
 """ 
 
     round_counts = {}
@@ -142,27 +150,21 @@ def nhl2():
     
     for round_num, round_scores in final_scores.iteritems():
         output += """
-    <h3 style="text-align: center;">Round %s</h3>
+    <h3 class="centertext">Round %s</h3>
         """ % round_num
-        possible = round_counts.get(round_num, 0) * 3
+        possible = round_counts[round_num] * POINTS_PER_SERIES
         for name, score in round_scores.iteritems():
             output += format_pred_score_line(name, score, possible)
-#            """
-#        <div class="predictionScore">%s %s points (out of %s possible, %.0f%%)</div>
-#            """ % (name, score, possible, (score * 100.0/ possible))
 
     totals = defaultdict(int)
     for round in final_scores.values():
         for name, score in round.iteritems():
             totals[name] += score
 
-    total_possible = sum(map(lambda x: x * 3, round_counts.values()))
-    output += """<h2 style="text-align: center;">Final Totals</h3>"""
+    total_possible = sum(round_counts.values()) * POINTS_PER_SERIES
+    output += """<h2 class="centertext">Final Totals</h3>"""
     for name, score in totals.iteritems():
             output += format_pred_score_line(name, score, total_possible)
-#            """
-#        <div class="predictionScore">%s %s points (out of %s possible)</div>
-#            """ % (name, score, total_possible)
     output += """
 </div>
 
@@ -171,57 +173,19 @@ def nhl2():
 <a href="http://www.sportsnet.ca/hockey/nhl/playoffs/">Sportsnet.ca NHL Playoffs</a>
  - 
 <a href="static/playoffs.json">View JSON</a>
+
+<a href="https://github.com/pzelnip/playoffpreds"><img style="position: absolute; top: 0; right: 0; border: 0;" 
+    src="https://camo.githubusercontent.com/e7bbb0521b397edbd5fe43e7f760759336b5e05f/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677265656e5f3030373230302e706e67" 
+    alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_green_007200.png"></a>
 </body>
 </html>
     """
     return output
 
-def format_pred_score_line(name, score, possible):
-    return """
-<div class="predictionScore">%s %s points (out of %s possible, %.0f%%)</div>
-        """ % (name, score, possible, (score * 100.0/ possible))
-
-
-
-@app.route('/nhlold')
-def nhl():
-
-    with open('static/playoffs.json', 'r') as fobj:
-        content = "".join(fobj.readlines())
-    rounds = json.loads(content)
-
-    output = "<pre>\n"
-
-    scores = defaultdict(int)
-    for series in preds:
-        result = series.get('result', None)
-        output += "%s vs %s\n" % (series['hometeam'], series['awayteam'])
-        if result:
-            output += "%s win in %s games\n" % (result['team'], result['games'])
-        else:
-            output += "--series in progress--\n"
-        for prediction in series['predictions']:
-            msg, score = pred_score(prediction, result)
-            name = prediction['name']
-            scores[name] += score
-            output += "%s says %s in %s %s\n" % (name, prediction['team'], prediction['games'], msg)
-        output += "-" * 20
-        output += "\n"
-
-    for k, v in scores.iteritems():
-        output += "%s - %s points\n" % (k, v)
-
-    output += "</pre>\n"
-    return output
 
 @app.route('/')
 def index():
     return 'Flask is running<br><br><a href="/nhl">nhl predictions</a>'
-
-@app.route('/data')
-def names():
-    data = {"names": ['John', "jacob", "Julie", "Jennifer", "julie"]}
-    return jsonify(data)
 
 if __name__ == "__main__":
     app.run()

@@ -26,7 +26,6 @@ body {
 .hometeam {
 	float:left;
 	color: #AA4E93;
-
 }
 
 .hometeam::before {
@@ -120,4 +119,8 @@ body {
 
 .smalltext {
 	font-size: 9px;
+}
+
+.centertext {
+	text-align: center;
 }
