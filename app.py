@@ -77,6 +77,7 @@ def nhl2():
 
 """ 
 
+    round_counts = {}
     final_scores = {}
     for round in rounds:
         scores = defaultdict(int)
@@ -84,7 +85,9 @@ def nhl2():
         output += """
 <h2 class="roundTitle">Round %s</h2>""" % round['round']
 
+        round_count = 0
         for series in round['roundPreds']:
+            round_count += 1
             result = series.get('result', None)
             output += """
     <div class="matchup">
@@ -129,7 +132,7 @@ def nhl2():
             """
 
             output += "\n"
-
+        round_counts[round['round']] = round_count
     output += """
 <br><br><br>
 
@@ -141,22 +144,25 @@ def nhl2():
         output += """
     <h3 style="text-align: center;">Round %s</h3>
         """ % round_num
+        possible = round_counts.get(round_num, 0) * 3
         for name, score in round_scores.iteritems():
-            output += """
-        <div class="predictionScore">%s %s points</div>
-            """ % (name, score)
+            output += format_pred_score_line(name, score, possible)
+#            """
+#        <div class="predictionScore">%s %s points (out of %s possible, %.0f%%)</div>
+#            """ % (name, score, possible, (score * 100.0/ possible))
 
     totals = defaultdict(int)
     for round in final_scores.values():
         for name, score in round.iteritems():
             totals[name] += score
 
-
+    total_possible = sum(map(lambda x: x * 3, round_counts.values()))
     output += """<h2 style="text-align: center;">Final Totals</h3>"""
     for name, score in totals.iteritems():
-            output += """
-        <div class="predictionScore">%s %s points</div>
-            """ % (name, score)
+            output += format_pred_score_line(name, score, total_possible)
+#            """
+#        <div class="predictionScore">%s %s points (out of %s possible)</div>
+#            """ % (name, score, total_possible)
     output += """
 </div>
 
@@ -167,6 +173,13 @@ def nhl2():
 </html>
     """
     return output
+
+def format_pred_score_line(name, score, possible):
+    return """
+<div class="predictionScore">%s %s points (out of %s possible, %.0f%%)</div>
+        """ % (name, score, possible, (score * 100.0/ possible))
+
+
 
 @app.route('/nhlold')
 def nhl():
