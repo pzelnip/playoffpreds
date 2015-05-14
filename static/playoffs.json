@@ -289,7 +289,11 @@
 							"team" : "Montreal Canadiens",
  							"games" : 5
 						}
-					]
+					],
+				"result" : {
+					"team" : "Tampa Bay Lightning",
+					"games" : 6
+				}
 			},
 			{
 				"hometeam" : "New York Rangers",
@@ -311,9 +315,12 @@
 							"team" : "Washington Capitals",
 							"games" : 7
 						}
-					]
+					],
+				"result" : {
+					"team" : "New York Rangers",
+					"games" : 7
+				}
 			}
-
 		]
 	},
 	{
@@ -327,8 +334,8 @@
 					[
 						{
 							"name" : "Adam",
-							"team" : "TBD",
-							"games" : 0
+							"team" : "Anaheim Ducks",
+							"games" : 6
 						},
 						{
 							"name" : "Susan",
@@ -342,6 +349,34 @@
 						}
 					]
 			},
+			{
+				"hometeam" : "New York Rangers",
+				"awayteam" : "Tampa Bay Lightning",
+				"predictions" :
+					[
+						{
+							"name" : "Adam",
+							"team" : "New York Rangers",
+							"games" : 6
+						},
+						{
+							"name" : "Susan",
+							"team" : "TBD",
+							"games" : 0
+						},
+						{
+							"name" : "Angela",
+							"team" : "TBD",
+							"games" : 0
+						}
+					]
+			}
+		]
+	},
+	{
+		"round" : 4,
+		"roundPreds" : 
+		[
 			{
 				"hometeam" : "TBD",
 				"awayteam" : "TBD",
@@ -366,5 +401,4 @@
 			}
 		]
 	}
-
 ]
