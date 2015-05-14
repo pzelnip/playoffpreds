@@ -166,9 +166,11 @@ def nhl2():
     output += """
 </div>
 
-<div class="centerblock">
+<br><br><br><br><br><br>
+<div class="centerblock smalltext">
 <a href="http://www.sportsnet.ca/hockey/nhl/playoffs/">Sportsnet.ca NHL Playoffs</a>
-
+ - 
+<a href="static/playoffs.json">View JSON</a>
 </body>
 </html>
     """

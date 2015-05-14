@@ -117,3 +117,7 @@ body {
 	-webkit-margin-end: 0px;
 	font-weight: bold;
 }
+
+.smalltext {
+	font-size: 9px;
+}
