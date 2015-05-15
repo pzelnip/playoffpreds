@@ -36,11 +36,15 @@ ${main()}
 	<div class="scoreSummary">
 		<span class="totalsHeading">Totals</span>
 
-		%for round_num, scores in score_summary.iteritems():
-			${dump_round_score(round_num, scores)}
+		%for round_score in score_summary.round_scores:
+##			${dump_round_score(round_num, scores)}
+			${round_score}
 		%endfor
 
 		<h2 class="centertext">Final Totals</h3>
+		%for final_score in score_summary.final_score.scores:
+			${final_score}
+		%endfor
 	</div>
 </%def>
 

@@ -260,13 +260,17 @@ def mako():
     RoundScore = namedtuple('RoundScore', ['round_num', 'scores', 'possible'])
     ScoreResult = namedtuple('ScoreResult', ['name', 'score', 'percent'])
 
-    FinalScore = namedTuple('FinalScore', ['scores', 'possible'])
+    FinalScore = namedtuple('FinalScore', ['scores', 'possible'])
 
     ScoreSummary = namedtuple('ScoreSummary', ['final_score', 'round_scores'])
 
+
+
     extra_vars = {
         'rounds' : round_results,
-        'score_summary' : final_scores,
+        'score_summary' : ScoreSummary(
+            FinalScore([], 45),
+            [])
     }
 
     return render_template('nhl.mako', **extra_vars)
