@@ -1,8 +1,12 @@
 import json
-from collections import defaultdict
+from collections import defaultdict, namedtuple
 from flask import Flask, jsonify
+from flask.ext.mako import MakoTemplates
+from flask.ext.mako import render_template
+
 
 app = Flask(__name__)
+mako = MakoTemplates(app)
 
 POINTS_FOR_WINNING_TEAM = 2
 POINTS_FOR_NUMBER_OF_GAMES = 1
@@ -186,6 +190,34 @@ def nhl2():
 @app.route('/')
 def index():
     return 'Flask is running<br><br><a href="/nhl">nhl predictions</a>'
+
+
+
+def parse_data():
+    Round = namedtuple('Round', ['number', 'matchups'])
+    Matchup = namedtuple('Matchup', ['home', 'homeimg', 'away', 'awayimg', 'result'])
+
+    rd1matchups = [
+        Matchup('Vancouver Canucks', team_img('vancouver canucks'),
+                'Calgary Flames', team_img('calgary flames'),
+                'Calgary Flames in 6'),
+        Matchup('Anaheim Ducks', team_img('anaheim ducks'),
+                'Chicago Blackhawks', team_img('Chicago Blackhawks'),
+                'Chicago Blackhawks in 5')
+        ]
+    round1 = Round(1, rd1matchups)
+
+    return [round1]
+
+
+@app.route('/mako')
+def mako():
+
+    extra_vars = {
+        'rounds' : parse_data(),
+        'score_summary' : 'score summary',
+    }
+    return render_template('nhl.mako', **extra_vars)
 
 if __name__ == "__main__":
     app.run()
