@@ -192,31 +192,75 @@ def index():
     return 'Flask is running<br><br><a href="/nhl">nhl predictions</a>'
 
 
-
-def parse_data():
+def parse_data(rounds):
     Round = namedtuple('Round', ['number', 'matchups'])
-    Matchup = namedtuple('Matchup', ['home', 'homeimg', 'away', 'awayimg', 'result'])
+    Matchup = namedtuple('Matchup', ['home', 'homeimg', 'away', 'awayimg', 'result', 'predictions'])
+    Prediction = namedtuple('Prediction', ['predictor', 'team', 'games', 'outcome'])
 
-    rd1matchups = [
-        Matchup('Vancouver Canucks', team_img('vancouver canucks'),
-                'Calgary Flames', team_img('calgary flames'),
-                'Calgary Flames in 6'),
-        Matchup('Anaheim Ducks', team_img('anaheim ducks'),
-                'Chicago Blackhawks', team_img('Chicago Blackhawks'),
-                'Chicago Blackhawks in 5')
-        ]
-    round1 = Round(1, rd1matchups)
+    round_counts = {}
+    final_scores = {}
+    round_results = []
+    for round in rounds:
+        round_number = round['round']
 
-    return [round1]
+        scores = defaultdict(int)
+        final_scores[round['round']] = scores
+
+        round_count = 0
+        matchups = []
+        for series in round['roundPreds']:
+            round_count += 1
+            hometeam = series['hometeam']
+            home_img = team_img(hometeam)
+            awayteam = series['awayteam']
+            away_img = team_img(awayteam)
+            result = series.get('result', None)
+
+            preds = []
+            for prediction in series['predictions']:
+                msg, score = pred_score(prediction, result)
+                name = prediction['name']
+                scores[name] += score
+
+                preds.append(Prediction(name, prediction['team'], prediction['games'], msg))
+
+            matchups.append(Matchup(hometeam, home_img, awayteam, away_img, fmt_result(result), preds))
+        round_results.append(Round(round_number, matchups))
+        round_counts[round['round']] = round_count
+
+
+    for round_num, round_scores in final_scores.iteritems():
+        possible = round_counts[round_num] * POINTS_PER_SERIES
+        for name, score in round_scores.iteritems():
+            pass
+            # output += format_pred_score_line(name, score, possible)
+
+    totals = defaultdict(int)
+    for round in final_scores.values():
+        for name, score in round.iteritems():
+            totals[name] += score
+
+    total_possible = sum(round_counts.values()) * POINTS_PER_SERIES
+    for name, score in totals.iteritems():
+        pass
+        # output += format_pred_score_line(name, score, total_possible)
+
+
+    return round_results
 
 
 @app.route('/mako')
 def mako():
+    with open('static/playoffs.json', 'r') as fobj:
+        content = "".join(fobj.readlines())
+    rounds = json.loads(content)
 
     extra_vars = {
-        'rounds' : parse_data(),
+        'rounds' : parse_data(rounds),
         'score_summary' : 'score summary',
     }
+
+    print extra_vars
     return render_template('nhl.mako', **extra_vars)
 
 if __name__ == "__main__":

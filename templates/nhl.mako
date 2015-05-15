@@ -69,12 +69,24 @@ ${main()}
     		</div>
     	</div>
     	<div class="result">${matchup.result}</div>
-    	<div class="predictionList">
 
-    	</div>
+    	${dump_predictions(matchup.predictions)}
     </div>
     <br> <br> <br> <br> <br> <br>
 
 
 	%endfor
+</%def>
+
+<%def name="dump_predictions(predictions)">
+	<div class="predictionList">
+		%for prediction in predictions:
+			<div class="prediction">
+			${prediction.predictor} says ${prediction.team} in ${prediction.games}
+	        </div>
+			<div class="predictionResult">
+				${prediction.outcome}
+			</div>
+		%endfor
+	</div>
 </%def>
