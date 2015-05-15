@@ -264,13 +264,23 @@ def mako():
 
     ScoreSummary = namedtuple('ScoreSummary', ['final_score', 'round_scores'])
 
+    from operator import itemgetter
+    round1_scores = sorted([
+                    ScoreResult('Adam', 12, 12.0/24.0 * 100),
+                    ScoreResult('Susan', 10, 10.0/24.0 * 100),
+                    ScoreResult('Angela', 12, 12.0/24.0 * 100),
+                    ], key=itemgetter(2), reverse=True)
 
-
+    final_totals = sorted([
+                ScoreResult('Adam', 35, 35.0 / 45 * 100),
+                ScoreResult('Susan', 20, 20.0 / 45 * 100),
+                ScoreResult('Angela', 40, 40.0 / 45 * 100),
+                ], key=itemgetter(2), reverse=True)
     extra_vars = {
         'rounds' : round_results,
         'score_summary' : ScoreSummary(
-            FinalScore([], 45),
-            [])
+            FinalScore(final_totals, 45), [RoundScore(1, round1_scores, 24)]
+            )
     }
 
     return render_template('nhl.mako', **extra_vars)

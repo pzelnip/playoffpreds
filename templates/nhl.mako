@@ -37,20 +37,32 @@ ${main()}
 		<span class="totalsHeading">Totals</span>
 
 		%for round_score in score_summary.round_scores:
-##			${dump_round_score(round_num, scores)}
-			${round_score}
+			${dump_round_score(round_score)}
 		%endfor
 
 		<h2 class="centertext">Final Totals</h3>
-		%for final_score in score_summary.final_score.scores:
-			${final_score}
+		%for player_score in score_summary.final_score.scores:
+			${dump_prediction_score(player_score.name,
+				player_score.score, 
+				score_summary.final_score.possible,
+				player_score.percent)}
 		%endfor
 	</div>
 </%def>
 
-<%def name="dump_round_score(round_num, round_scores)">
-	<h3 class="centertext">Round ${round_num}</h3>
-	${round_scores}
+<%def name="dump_round_score(round_score)">
+	<h3 class="centertext">Round ${round_score.round_num}</h3>
+	%for player_score in round_score.scores:
+			${dump_prediction_score(player_score.name, 
+				player_score.score, round_score.possible, 
+				player_score.percent)}
+	%endfor
+</%def>
+
+<%def name="dump_prediction_score(name, score, possible, percent)">
+	<div class="predictionScore">
+		${name} ${score} points (out of ${possible} possible, ${"%.0f" % percent}%)
+	</div>
 </%def>
 
 <%def name="dump_rounds(rounds)">
