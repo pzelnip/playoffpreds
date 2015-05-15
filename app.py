@@ -256,6 +256,14 @@ def mako():
     rounds = json.loads(content)
 
     round_results, final_scores = parse_data(rounds)
+
+    RoundScore = namedtuple('RoundScore', ['round_num', 'scores', 'possible'])
+    ScoreResult = namedtuple('ScoreResult', ['name', 'score', 'percent'])
+
+    FinalScore = namedTuple('FinalScore', ['scores', 'possible'])
+
+    ScoreSummary = namedtuple('ScoreSummary', ['final_score', 'round_scores'])
+
     extra_vars = {
         'rounds' : round_results,
         'score_summary' : final_scores,
