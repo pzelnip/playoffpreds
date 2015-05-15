@@ -246,7 +246,7 @@ def parse_data(rounds):
         # output += format_pred_score_line(name, score, total_possible)
 
 
-    return round_results
+    return round_results, final_scores
 
 
 @app.route('/mako')
@@ -255,12 +255,12 @@ def mako():
         content = "".join(fobj.readlines())
     rounds = json.loads(content)
 
+    round_results, final_scores = parse_data(rounds)
     extra_vars = {
-        'rounds' : parse_data(rounds),
-        'score_summary' : 'score summary',
+        'rounds' : round_results,
+        'score_summary' : final_scores,
     }
 
-    print extra_vars
     return render_template('nhl.mako', **extra_vars)
 
 if __name__ == "__main__":

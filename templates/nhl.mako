@@ -1,14 +1,11 @@
 ${main()}
 
-
 <%def name="main()">
 	${top_base()}
 	${dump_rounds(rounds)}
 	${dump_score_summary(score_summary)}
 	${bottom_base()}
 </%def>
-
-
 
 <%def name="top_base()">
 	<html>
@@ -18,7 +15,6 @@ ${main()}
 	</head>
 	<body>
 </%def>
-
 
 <%def name="bottom_base()">
 	<br><br><br><br><br><br>
@@ -40,8 +36,17 @@ ${main()}
 	<div class="scoreSummary">
 		<span class="totalsHeading">Totals</span>
 
-		MORE STUFF HERE
+		%for round_num, scores in score_summary.iteritems():
+			${dump_round_score(round_num, scores)}
+		%endfor
+
+		<h2 class="centertext">Final Totals</h3>
 	</div>
+</%def>
+
+<%def name="dump_round_score(round_num, round_scores)">
+	<h3 class="centertext">Round ${round_num}</h3>
+	${round_scores}
 </%def>
 
 <%def name="dump_rounds(rounds)">
@@ -54,27 +59,25 @@ ${main()}
 
 <%def name="dump_matchups(matchups)">
 	%for matchup in matchups:
-    <div class="matchup">
-    	<div class="teamNames">
-    		<div class="team hometeam">
-            ${matchup.home}<br>
-            <img src="${matchup.homeimg}" class="teamLogo">
-    		</div>
-    		<div class="vsCenter">
-    		Vs
-    		</div>
-    		<div class="team awayteam">
-    			${matchup.away}<br>
-                <img src="${matchup.awayimg}" class="teamLogo">
-    		</div>
-    	</div>
-    	<div class="result">${matchup.result}</div>
+	    <div class="matchup">
+	    	<div class="teamNames">
+	    		<div class="team hometeam">
+	            ${matchup.home}<br>
+	            <img src="${matchup.homeimg}" class="teamLogo">
+	    		</div>
+	    		<div class="vsCenter">
+	    		Vs
+	    		</div>
+	    		<div class="team awayteam">
+	    			${matchup.away}<br>
+	                <img src="${matchup.awayimg}" class="teamLogo">
+	    		</div>
+	    	</div>
+	    	<div class="result">${matchup.result}</div>
 
-    	${dump_predictions(matchup.predictions)}
-    </div>
-    <br> <br> <br> <br> <br> <br>
-
-
+	    	${dump_predictions(matchup.predictions)}
+	    </div>
+	    <br> <br> <br> <br> <br> <br>
 	%endfor
 </%def>
 
@@ -82,7 +85,7 @@ ${main()}
 	<div class="predictionList">
 		%for prediction in predictions:
 			<div class="prediction">
-			${prediction.predictor} says ${prediction.team} in ${prediction.games}
+				${prediction.predictor} says ${prediction.team} in ${prediction.games}
 	        </div>
 			<div class="predictionResult">
 				${prediction.outcome}
