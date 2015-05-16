@@ -1,5 +1,7 @@
 import json
 from collections import defaultdict, namedtuple
+from operator import itemgetter
+
 from flask import Flask, jsonify
 from flask.ext.mako import MakoTemplates
 from flask.ext.mako import render_template
@@ -7,6 +9,15 @@ from flask.ext.mako import render_template
 
 app = Flask(__name__)
 mako = MakoTemplates(app)
+
+Round = namedtuple('Round', ['number', 'matchups'])
+Matchup = namedtuple('Matchup', ['home', 'homeimg', 'away', 'awayimg', 'result', 'predictions'])
+Prediction = namedtuple('Prediction', ['predictor', 'team', 'games', 'outcome'])
+RoundScore = namedtuple('RoundScore', ['round_num', 'scores', 'possible'])
+ScoreResult = namedtuple('ScoreResult', ['name', 'score', 'percent'])
+FinalScore = namedtuple('FinalScore', ['scores', 'possible'])
+ScoreSummary = namedtuple('ScoreSummary', ['final_score', 'round_scores'])
+
 
 POINTS_FOR_WINNING_TEAM = 2
 POINTS_FOR_NUMBER_OF_GAMES = 1
@@ -34,11 +45,6 @@ def team_img(team):
     }
     return imgmap.get(team.lower(), 'http://upload.wikimedia.org/wikipedia/en/e/e4/NHL_Logo_former.svg')
 
-
-def format_pred_score_line(name, score, possible):
-    return """
-<div class="predictionScore">%s %s points (out of %s possible, %.0f%%)</div>
-        """ % (name, score, possible, (score * 100.0/ possible))
 
 def pred_score(pred, result):
     foo = ("...", 0)
@@ -74,118 +80,6 @@ def fmt_result(result):
     else:
         return "Series in progress"
 
-@app.route('/nhl')
-def nhl2():
-    with open('static/playoffs.json', 'r') as fobj:
-        content = "".join(fobj.readlines())
-    rounds = json.loads(content)
-
-    output = """
-<html>
-<head>
-	<link rel="stylesheet" type="text/css" href="static/nhl.css">
-	<title>Playoff Predictions</title>
-</head>
-<body>
-""" 
-
-    round_counts = {}
-    final_scores = {}
-    for round in rounds:
-        scores = defaultdict(int)
-        final_scores[round['round']] = scores
-        output += """
-<h2 class="roundTitle">Round %s</h2>""" % round['round']
-
-        round_count = 0
-        for series in round['roundPreds']:
-            round_count += 1
-            result = series.get('result', None)
-            output += """
-    <div class="matchup">
-    	<div class="teamNames">
-    		<div class="team hometeam">
-            %s<br>
-            <img src="%s" class="teamLogo">
-    		</div>
-    		<div class="vsCenter">
-    		Vs
-    		</div>
-    		<div class="team awayteam">
-    			%s<br>
-                <img src="%s" class="teamLogo">
-    		</div>
-    	</div>
-    """ % (series['hometeam'], team_img(series['hometeam']), series['awayteam'], team_img(series['awayteam']))
-
-            output += """
-    	<div class="result">%s</div>
-        <div class="predictionList">
-            """ % fmt_result(result)
-     
-            for prediction in series['predictions']:
-                msg, score = pred_score(prediction, result)
-                name = prediction['name']
-                scores[name] += score
-
-                output += """
-    		<div class="prediction">
-                %s says %s in %s
-            </div>
-    		<div class="predictionResult">
-    			%s
-    		</div>
-                """ % (name, prediction['team'], prediction['games'], msg)
-
-            output += """
-    	</div>
-    </div>
-    <br> <br> <br> <br> <br> <br>
-            """
-
-            output += "\n"
-        round_counts[round['round']] = round_count
-    output += """
-<br><br><br>
-
-<div class="scoreSummary">
-<span class="totalsHeading">Totals</span>
-"""
-    
-    for round_num, round_scores in final_scores.iteritems():
-        output += """
-    <h3 class="centertext">Round %s</h3>
-        """ % round_num
-        possible = round_counts[round_num] * POINTS_PER_SERIES
-        for name, score in round_scores.iteritems():
-            output += format_pred_score_line(name, score, possible)
-
-    totals = defaultdict(int)
-    for round in final_scores.values():
-        for name, score in round.iteritems():
-            totals[name] += score
-
-    total_possible = sum(round_counts.values()) * POINTS_PER_SERIES
-    output += """<h2 class="centertext">Final Totals</h3>"""
-    for name, score in totals.iteritems():
-            output += format_pred_score_line(name, score, total_possible)
-    output += """
-</div>
-
-<br><br><br><br><br><br>
-<div class="centerblock smalltext">
-<a href="http://www.sportsnet.ca/hockey/nhl/playoffs/">Sportsnet.ca NHL Playoffs</a>
- - 
-<a href="static/playoffs.json">View JSON</a>
-
-<a href="https://github.com/pzelnip/playoffpreds"><img style="position: absolute; top: 0; right: 0; border: 0;" 
-    src="https://camo.githubusercontent.com/e7bbb0521b397edbd5fe43e7f760759336b5e05f/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677265656e5f3030373230302e706e67" 
-    alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_green_007200.png"></a>
-</body>
-</html>
-    """
-    return output
-
 
 @app.route('/')
 def index():
@@ -193,14 +87,6 @@ def index():
 
 
 def parse_data(rounds):
-    Round = namedtuple('Round', ['number', 'matchups'])
-    Matchup = namedtuple('Matchup', ['home', 'homeimg', 'away', 'awayimg', 'result', 'predictions'])
-    Prediction = namedtuple('Prediction', ['predictor', 'team', 'games', 'outcome'])
-    RoundScore = namedtuple('RoundScore', ['round_num', 'scores', 'possible'])
-    ScoreResult = namedtuple('ScoreResult', ['name', 'score', 'percent'])
-    FinalScore = namedtuple('FinalScore', ['scores', 'possible'])
-    ScoreSummary = namedtuple('ScoreSummary', ['final_score', 'round_scores'])
-
     round_counts = {}
     final_scores = {}
     round_results = []
@@ -232,45 +118,34 @@ def parse_data(rounds):
         round_results.append(Round(round_number, matchups))
         round_counts[round['round']] = round_count
 
-
+    round_scores_final = [] 
     for round_num, round_scores in final_scores.iteritems():
         possible = round_counts[round_num] * POINTS_PER_SERIES
-        for name, score in round_scores.iteritems():
-            pass
-            # output += format_pred_score_line(name, score, possible)
+        score_for_round = RoundScore(round_num, sorted([
+                ScoreResult(name, score, float(score) / possible * 100)
+                for name, score in round_scores.iteritems()
+            ], key=itemgetter(2), reverse=True), possible)
+        round_scores_final.append(score_for_round)
 
+    total_possible = sum(round_counts.values()) * POINTS_PER_SERIES
     totals = defaultdict(int)
     for round in final_scores.values():
         for name, score in round.iteritems():
             totals[name] += score
 
-    total_possible = sum(round_counts.values()) * POINTS_PER_SERIES
-    for name, score in totals.iteritems():
-        pass
-        # output += format_pred_score_line(name, score, total_possible)
-
-    from operator import itemgetter
-    round1_scores = sorted([
-                    ScoreResult('Adam', 12, 12.0/24.0 * 100),
-                    ScoreResult('Susan', 10, 10.0/24.0 * 100),
-                    ScoreResult('Angela', 12, 12.0/24.0 * 100),
-                    ], key=itemgetter(2), reverse=True)
-
     final_totals = sorted([
-                ScoreResult('Adam', 35, 35.0 / 45 * 100),
-                ScoreResult('Susan', 20, 20.0 / 45 * 100),
-                ScoreResult('Angela', 40, 40.0 / 45 * 100),
-                ], key=itemgetter(2), reverse=True)
+        ScoreResult(name, score, score * 1.0 / total_possible * 100)
+        for name, score in totals.iteritems()], 
+        key=itemgetter(2), reverse=True)
 
-    final_scores = ScoreSummary(
-            FinalScore(final_totals, 45), [RoundScore(1, round1_scores, 24)]
-            )
+    final_scores = ScoreSummary(FinalScore(final_totals, total_possible), 
+        round_scores_final)
 
     return round_results, final_scores
 
 
-@app.route('/mako')
-def mako():
+@app.route('/nhl')
+def nhl():
     with open('static/playoffs.json', 'r') as fobj:
         content = "".join(fobj.readlines())
     rounds = json.loads(content)
@@ -286,4 +161,3 @@ def mako():
 
 if __name__ == "__main__":
     app.run()
-
