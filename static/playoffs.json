@@ -339,13 +339,13 @@
 						},
 						{
 							"name" : "Susan",
-							"team" : "TBD",
-							"games" : 0
+							"team" : "Anaheim Ducks",
+							"games" : 6
 						},
 						{
 							"name" : "Angela",
-							"team" : "TBD",
-							"games" : 0
+							"team" : "Anaheim Ducks",
+							"games" : 6
 						}
 					]
 			},
@@ -361,13 +361,13 @@
 						},
 						{
 							"name" : "Susan",
-							"team" : "TBD",
-							"games" : 0
+							"team" : "New York Rangers",
+							"games" : 7
 						},
 						{
 							"name" : "Angela",
-							"team" : "TBD",
-							"games" : 0
+							"team" : "New York Rangers",
+							"games" : 4
 						}
 					]
 			}
