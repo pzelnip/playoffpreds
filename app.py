@@ -196,6 +196,10 @@ def parse_data(rounds):
     Round = namedtuple('Round', ['number', 'matchups'])
     Matchup = namedtuple('Matchup', ['home', 'homeimg', 'away', 'awayimg', 'result', 'predictions'])
     Prediction = namedtuple('Prediction', ['predictor', 'team', 'games', 'outcome'])
+    RoundScore = namedtuple('RoundScore', ['round_num', 'scores', 'possible'])
+    ScoreResult = namedtuple('ScoreResult', ['name', 'score', 'percent'])
+    FinalScore = namedtuple('FinalScore', ['scores', 'possible'])
+    ScoreSummary = namedtuple('ScoreSummary', ['final_score', 'round_scores'])
 
     round_counts = {}
     final_scores = {}
@@ -245,25 +249,6 @@ def parse_data(rounds):
         pass
         # output += format_pred_score_line(name, score, total_possible)
 
-
-    return round_results, final_scores
-
-
-@app.route('/mako')
-def mako():
-    with open('static/playoffs.json', 'r') as fobj:
-        content = "".join(fobj.readlines())
-    rounds = json.loads(content)
-
-    round_results, final_scores = parse_data(rounds)
-
-    RoundScore = namedtuple('RoundScore', ['round_num', 'scores', 'possible'])
-    ScoreResult = namedtuple('ScoreResult', ['name', 'score', 'percent'])
-
-    FinalScore = namedtuple('FinalScore', ['scores', 'possible'])
-
-    ScoreSummary = namedtuple('ScoreSummary', ['final_score', 'round_scores'])
-
     from operator import itemgetter
     round1_scores = sorted([
                     ScoreResult('Adam', 12, 12.0/24.0 * 100),
@@ -276,11 +261,25 @@ def mako():
                 ScoreResult('Susan', 20, 20.0 / 45 * 100),
                 ScoreResult('Angela', 40, 40.0 / 45 * 100),
                 ], key=itemgetter(2), reverse=True)
-    extra_vars = {
-        'rounds' : round_results,
-        'score_summary' : ScoreSummary(
+
+    final_scores = ScoreSummary(
             FinalScore(final_totals, 45), [RoundScore(1, round1_scores, 24)]
             )
+
+    return round_results, final_scores
+
+
+@app.route('/mako')
+def mako():
+    with open('static/playoffs.json', 'r') as fobj:
+        content = "".join(fobj.readlines())
+    rounds = json.loads(content)
+
+    round_results, final_scores = parse_data(rounds)
+
+    extra_vars = {
+        'rounds' : round_results,
+        'score_summary' : final_scores,
     }
 
     return render_template('nhl.mako', **extra_vars)
