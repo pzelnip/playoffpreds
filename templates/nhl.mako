@@ -69,7 +69,7 @@ ${main()}
 <%def name="bottom_base()">
         </div> <!-- class="row"> -->
         <br><br><br><br><br><br>
-        <div class="centerblock smalltext">
+        <div class="text-center smalltext text-muted">
         <a href="http://www.sportsnet.ca/hockey/nhl/playoffs/">Sportsnet.ca NHL Playoffs</a>
          - 
         <a href="static/playoffs.json">View JSON</a>
@@ -84,8 +84,8 @@ ${main()}
     <br><br><br>
 
     <a name="totals"></a>
-    <div class="scoreSummary">
-        <span class="totalsHeading">Totals</span>
+    <div class="scoreSummary text-center">
+        <h3 class="totalsHeading text-center">Totals</h3>
 
         %for round_score in score_summary.round_scores:
             ${dump_round_score(round_score)}
@@ -102,7 +102,7 @@ ${main()}
 </%def>
 
 <%def name="dump_round_score(round_score)">
-    <h3 class="centertext">Round ${round_score.round_num}</h3>
+    <h3 class="text-center">Round ${round_score.round_num}</h3>
     %for player_score in round_score.scores:
             ${dump_prediction_score(player_score.name, 
                 player_score.score, round_score.possible, 
@@ -124,7 +124,7 @@ ${main()}
 
 <%def name="dump_round(round)">
     <a name="round${round.number}">
-    <h2 class="roundTitle">Round ${round.number}</h2>
+    <h2 class="roundTitle text-center">Round ${round.number}</h2>
     </a>
 
     %for matchup in round.matchups:
@@ -133,21 +133,21 @@ ${main()}
 </%def>
 
 <%def name="dump_matchup(matchup)">
-    <div class="matchup">
+    <div class="matchup container">
         <div class="teamNames">
-            <div class="team hometeam">
+            <div class="team hometeam pull-left">
             ${matchup.home}<br>
-            <img src="${matchup.homeimg}" class="teamLogo">
+            <img src="${matchup.homeimg}" class="teamLogo img-responsive">
             </div>
             <div class="vsCenter">
             Vs
             </div>
-            <div class="team awayteam">
+            <div class="team awayteam pull-right">
                 ${matchup.away}<br>
-                <img src="${matchup.awayimg}" class="teamLogo">
+                <img src="${matchup.awayimg}" class="teamLogo img-responsive">
             </div>
         </div>
-        <div class="result">${matchup.result}</div>
+        <div class="text-center result">${matchup.result}</div>
 
         <div class="predictionList">
             %for prediction in matchup.predictions:
@@ -159,10 +159,10 @@ ${main()}
 </%def>
 
 <%def name="dump_prediction(prediction)">
-    <div class="prediction">
+    <div class="prediction pull-left">
         ${prediction.predictor} says ${prediction.team} in ${prediction.games}
     </div>
-    <div class="predictionResult">
+    <div class="predictionResult pull-right">
         ${prediction.outcome}
     </div>
 </%def>
