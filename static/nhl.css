@@ -22,12 +22,20 @@ body {
 	color: #AA4E93;
 }
 
+.hometeamimg {
+	float:left;
+}
+
 .hometeam::before {
 	content: "Home - ";
 }
 
 .awayteam {
 	color: #2C4E93;
+}
+
+.awayteamimg {
+	float:right;
 }
 
 .awayteam::before {
@@ -96,3 +104,7 @@ body {
 	font-size: 9px;
 }
 
+
+.drawborder {
+	border-style: solid;
+}

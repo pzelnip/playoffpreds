@@ -13,9 +13,41 @@ ${main()}
 
     <div class="container">
         <div class="row">
-        <a name="round${round.number}">
-        <h2 class="roundTitle text-center">Round ${round.number}</h2>
-        </a>
+            <a name="round42">
+            <h2 class="roundTitle text-center">Round 42</h2>
+            </a>
+        </div>
+        <div class="row drawborder">
+            <div class="col-md-1 drawborder">&nbsp;</div>
+            <div class="col-md-4 team drawborder">
+                    <div class="pull-left hometeam">
+                        My Teamsdaf asdf asdfa<br>
+                        <img src="http://www.sportsnet.ca/wp-content/themes/sportsnet-nhl/images/team_logos/200x200/hockey/nhl/anaheim-ducks.png" class="teamLogo img-responsive hometeamimg">
+                    </div>
+            </div>
+            <div class="col-md-2 text-center lead">
+                VS
+            </div>
+            <div class="col-md-4 team text-right drawborder">
+                <div class="pull-right awayteam">
+                    My other team<br>
+                    <img src="http://www.sportsnet.ca/wp-content/themes/sportsnet-nhl/images/team_logos/200x200/hockey/nhl/anaheim-ducks.png" class="teamLogo img-responsive awayteamimg">
+                </div>
+            </div>
+            <div class="col-md-1 drawborder">&nbsp;</div>
+        </div>
+        <div class="row drawborder text-center">
+            Tampa Bay Lightning in 6
+        </div>
+        <div class="row drawborder">
+            <div class="col-md-2"> </div>
+            <div class="pull-left col-md-4">
+             Adam says New York Islanders in 6
+            </div>
+            <div class="pull-right col-md-4">
+            (0 points for being totally wrong)
+            </div>
+            <div class="col-md-2"> </div>
         </div>
     </div>
 </%def>
