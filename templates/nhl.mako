@@ -3,12 +3,12 @@ ${main()}
 <%def name="main()">
     ${top_base(rounds)}
 
-    <div class="col-md-12">
-        ${dump_rounds(rounds)}
-        ${dump_score_summary(score_summary)}
-    </div>
+    ${dump_rounds(rounds)}
+    ${dump_score_summary(score_summary)}
+
 
     ${bottom_base()}
+
 </%def>
 
 <%def name="top_base(rounds)">
@@ -31,7 +31,7 @@ ${main()}
         <h2>Pedle's Family Playoff Predictions</h2>
         <p>Every year my wife & I make our NHL playoff predictions.  This year my 4 year old daughter joined in on the fun.  Below is the results</p>
         </div>
-        <div class="row">
+    </div>
 </%def>
 
 
@@ -69,7 +69,7 @@ ${main()}
 <%def name="bottom_base()">
         </div> <!-- class="row"> -->
         <br><br><br><br><br><br>
-        <div class="centerblock smalltext">
+        <div class="text-center smalltext text-muted">
         <a href="http://www.sportsnet.ca/hockey/nhl/playoffs/">Sportsnet.ca NHL Playoffs</a>
          - 
         <a href="static/playoffs.json">View JSON</a>
@@ -84,8 +84,8 @@ ${main()}
     <br><br><br>
 
     <a name="totals"></a>
-    <div class="scoreSummary">
-        <span class="totalsHeading">Totals</span>
+    <div class="scoreSummary text-center">
+        <h3 class="totalsHeading text-center">Totals</h3>
 
         %for round_score in score_summary.round_scores:
             ${dump_round_score(round_score)}
@@ -102,7 +102,7 @@ ${main()}
 </%def>
 
 <%def name="dump_round_score(round_score)">
-    <h3 class="centertext">Round ${round_score.round_num}</h3>
+    <h3 class="text-center">Round ${round_score.round_num}</h3>
     %for player_score in round_score.scores:
             ${dump_prediction_score(player_score.name, 
                 player_score.score, round_score.possible, 
@@ -123,46 +123,62 @@ ${main()}
 </%def>
 
 <%def name="dump_round(round)">
-    <a name="round${round.number}">
-    <h2 class="roundTitle">Round ${round.number}</h2>
-    </a>
+    <div class="container">
+        <div class="row">
+        <a name="round${round.number}">
+        <h2 class="roundTitle text-center">Round ${round.number}</h2>
+        </a>
+        </div>
 
     %for matchup in round.matchups:
         ${dump_matchup(matchup)}
     %endfor
+
+    </div> <!-- container -->
 </%def>
 
 <%def name="dump_matchup(matchup)">
-    <div class="matchup">
-        <div class="teamNames">
-            <div class="team hometeam">
-            ${matchup.home}<br>
-            <img src="${matchup.homeimg}" class="teamLogo">
-            </div>
-            <div class="vsCenter">
-            Vs
-            </div>
-            <div class="team awayteam">
-                ${matchup.away}<br>
-                <img src="${matchup.awayimg}" class="teamLogo">
-            </div>
-        </div>
-        <div class="result">${matchup.result}</div>
+    <div class="row">
+        <div class="col-md-1">&nbsp;</div>
 
-        <div class="predictionList">
-            %for prediction in matchup.predictions:
-                ${dump_prediction(prediction)}
-            %endfor
+        <div class="col-md-4 team">
+            <div class="pull-left hometeam teamNames">
+                ${matchup.home}<br>
+                <img src="${matchup.homeimg}" class="teamLogo img-responsive hometeamimg">
+            </div>
         </div>
+        <div class="col-md-2 text-center lead">
+            Vs
+        </div>
+        <div class="col-md-4 team teamNames">
+            <div class="awayteam pull-right">
+                ${matchup.away}<br>
+                <img src="${matchup.awayimg}" class="teamLogo img-responsive awayteamimg">
+            </div>
+        </div>
+        <div class="col-md-1">&nbsp;</div>
+    </div>
+    <div class="row text-center result">
+        ${matchup.result}
+    </div>
+    <div class="row">
+        %for prediction in matchup.predictions:
+            ${dump_prediction(prediction)}
+        %endfor
     </div>
     <br> <br> <br> <br> <br> <br>
+
 </%def>
 
 <%def name="dump_prediction(prediction)">
-    <div class="prediction">
-        ${prediction.predictor} says ${prediction.team} in ${prediction.games}
-    </div>
-    <div class="predictionResult">
-        ${prediction.outcome}
+    <div class="container">
+        <div class="col-md-2"> </div>
+        <div class="col-md-4 text-right">
+            ${prediction.predictor} says ${prediction.team} in ${prediction.games}
+        </div>
+        <div class="col-md-4 text-left">
+            ${prediction.outcome}
+        </div>
+        <div class="col-md-2"> </div>
     </div>
 </%def>
