@@ -3,53 +3,12 @@ ${main()}
 <%def name="main()">
     ${top_base(rounds)}
 
-    <div class="col-md-12">
-        ${dump_rounds(rounds)}
-        ${dump_score_summary(score_summary)}
-    </div>
+    ${dump_rounds(rounds)}
+    ${dump_score_summary(score_summary)}
 
 
     ${bottom_base()}
 
-    <div class="container">
-        <div class="row">
-            <a name="round42">
-            <h2 class="roundTitle text-center">Round 42</h2>
-            </a>
-        </div>
-        <div class="row drawborder">
-            <div class="col-md-1 drawborder">&nbsp;</div>
-            <div class="col-md-4 team drawborder">
-                    <div class="pull-left hometeam">
-                        My Teamsdaf asdf asdfa<br>
-                        <img src="http://www.sportsnet.ca/wp-content/themes/sportsnet-nhl/images/team_logos/200x200/hockey/nhl/anaheim-ducks.png" class="teamLogo img-responsive hometeamimg">
-                    </div>
-            </div>
-            <div class="col-md-2 text-center lead">
-                VS
-            </div>
-            <div class="col-md-4 team text-right drawborder">
-                <div class="pull-right awayteam">
-                    My other team<br>
-                    <img src="http://www.sportsnet.ca/wp-content/themes/sportsnet-nhl/images/team_logos/200x200/hockey/nhl/anaheim-ducks.png" class="teamLogo img-responsive awayteamimg">
-                </div>
-            </div>
-            <div class="col-md-1 drawborder">&nbsp;</div>
-        </div>
-        <div class="row drawborder text-center">
-            Tampa Bay Lightning in 6
-        </div>
-        <div class="row drawborder">
-            <div class="col-md-2"> </div>
-            <div class="pull-left col-md-4">
-             Adam says New York Islanders in 6
-            </div>
-            <div class="pull-right col-md-4">
-            (0 points for being totally wrong)
-            </div>
-            <div class="col-md-2"> </div>
-        </div>
-    </div>
 </%def>
 
 <%def name="top_base(rounds)">
@@ -72,7 +31,7 @@ ${main()}
         <h2>Pedle's Family Playoff Predictions</h2>
         <p>Every year my wife & I make our NHL playoff predictions.  This year my 4 year old daughter joined in on the fun.  Below is the results</p>
         </div>
-        <div class="row">
+    </div>
 </%def>
 
 
@@ -164,46 +123,62 @@ ${main()}
 </%def>
 
 <%def name="dump_round(round)">
-    <a name="round${round.number}">
-    <h2 class="roundTitle text-center">Round ${round.number}</h2>
-    </a>
+    <div class="container">
+        <div class="row">
+        <a name="round${round.number}">
+        <h2 class="roundTitle text-center">Round ${round.number}</h2>
+        </a>
+        </div>
 
     %for matchup in round.matchups:
         ${dump_matchup(matchup)}
     %endfor
+
+    </div> <!-- container -->
 </%def>
 
 <%def name="dump_matchup(matchup)">
-    <div class="matchup container">
-        <div class="teamNames">
-            <div class="team hometeam pull-left">
-            ${matchup.home}<br>
-            <img src="${matchup.homeimg}" class="teamLogo img-responsive">
-            </div>
-            <div class="vsCenter">
-            Vs
-            </div>
-            <div class="team awayteam pull-right">
-                ${matchup.away}<br>
-                <img src="${matchup.awayimg}" class="teamLogo img-responsive">
-            </div>
-        </div>
-        <div class="text-center result">${matchup.result}</div>
+    <div class="row">
+        <div class="col-md-1">&nbsp;</div>
 
-        <div class="predictionList">
-            %for prediction in matchup.predictions:
-                ${dump_prediction(prediction)}
-            %endfor
+        <div class="col-md-4 team">
+            <div class="pull-left hometeam teamNames">
+                ${matchup.home}<br>
+                <img src="${matchup.homeimg}" class="teamLogo img-responsive hometeamimg">
+            </div>
         </div>
+        <div class="col-md-2 text-center lead">
+            Vs
+        </div>
+        <div class="col-md-4 team teamNames">
+            <div class="awayteam pull-right">
+                ${matchup.away}<br>
+                <img src="${matchup.awayimg}" class="teamLogo img-responsive awayteamimg">
+            </div>
+        </div>
+        <div class="col-md-1">&nbsp;</div>
+    </div>
+    <div class="row text-center result">
+        ${matchup.result}
+    </div>
+    <div class="row">
+        %for prediction in matchup.predictions:
+            ${dump_prediction(prediction)}
+        %endfor
     </div>
     <br> <br> <br> <br> <br> <br>
+
 </%def>
 
 <%def name="dump_prediction(prediction)">
-    <div class="prediction pull-left">
-        ${prediction.predictor} says ${prediction.team} in ${prediction.games}
-    </div>
-    <div class="predictionResult pull-right">
-        ${prediction.outcome}
+    <div class="container">
+        <div class="col-md-2"> </div>
+        <div class="col-md-4 text-right">
+            ${prediction.predictor} says ${prediction.team} in ${prediction.games}
+        </div>
+        <div class="col-md-4 text-left">
+            ${prediction.outcome}
+        </div>
+        <div class="col-md-2"> </div>
     </div>
 </%def>
