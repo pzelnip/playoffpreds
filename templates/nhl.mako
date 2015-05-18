@@ -112,7 +112,13 @@ ${main()}
 
 <%def name="dump_prediction_score(name, score, possible, percent)">
     <div class="predictionScore">
-        ${name} ${score} points (out of ${possible} possible, ${"%.0f" % percent}%)
+        ${name} ${score} points (out of ${possible} possible)
+        <div class="progress" style="width:50%; margin: 0 auto;">
+            <div class="progress-bar progress-bar-info progress-bar-striped" role="progressbar" aria-valuenow="${percent}" aria-valuemin="0" aria-valuemax="100" style="width:${percent}%">
+                ${"%.0f" % percent}%
+            </div>
+        </div>
+
     </div>
 </%def>
 
