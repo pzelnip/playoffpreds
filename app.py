@@ -159,5 +159,20 @@ def nhl():
 
     return render_template('nhl.mako', **extra_vars)
 
+@app.route('/history')
+def history():
+    Image = namedtuple('Image', ['url', 'title', 'description', 
+        'width', 'height'])
+
+    extra_vars = {'images' : [
+        Image('static/hist1.png', 'Just A Dump', 'Initially this was a &lt;pre&gt; tag wrapping raw text.', 999, 743),
+        Image('static/hist2.png', 'Team Logos &amp; Some HTML', 'First HTML layout attempt, using a lot of DIVs and raw CSS by hand', 1280, 731),
+        Image('static/hist3.png', 'CSS Experimentation', 'Then I started experimenting with crazy CSS looks', 1274, 708),
+        Image('static/hist4.png', 'Subtle Additions', 'Home & Away captions via CSS, subtle layout changes', 1280, 747),
+        Image('static/hist5.png', 'Fork Me On Github', '', 1280, 723),
+        Image('static/hist6.png', 'Bootstrap is a Thing', 'Navbar, jumbotron, improvements to layout', 1280, 667),
+    ]}
+    return render_template('history.mako', **extra_vars)
+
 if __name__ == "__main__":
     app.run()
