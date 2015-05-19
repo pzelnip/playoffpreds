@@ -112,7 +112,13 @@ ${main()}
 
 <%def name="dump_prediction_score(name, score, possible, percent)">
     <div class="predictionScore">
-        ${name} ${score} points (out of ${possible} possible, ${"%.0f" % percent}%)
+        ${name} ${score} points (out of ${possible} possible)
+        <div class="progress" style="width:50%; margin: 0 auto;">
+            <div class="progress-bar progress-bar-info progress-bar-striped" role="progressbar" aria-valuenow="${percent}" aria-valuemin="0" aria-valuemax="100" style="width:${percent}%">
+                ${"%.0f" % percent}%
+            </div>
+        </div>
+
     </div>
 </%def>
 
@@ -141,7 +147,7 @@ ${main()}
     <div class="row">
         <div class="col-md-1">&nbsp;</div>
 
-        <div class="col-md-4 team">
+        <div class="col-md-4">
             <div class="pull-left hometeam teamNames">
                 ${matchup.home}<br>
                 <img src="${matchup.homeimg}" class="teamLogo img-responsive hometeamimg">
@@ -150,7 +156,7 @@ ${main()}
         <div class="col-md-2 text-center lead">
             Vs
         </div>
-        <div class="col-md-4 team teamNames">
+        <div class="col-md-4 teamNames">
             <div class="awayteam pull-right">
                 ${matchup.away}<br>
                 <img src="${matchup.awayimg}" class="teamLogo img-responsive awayteamimg">
