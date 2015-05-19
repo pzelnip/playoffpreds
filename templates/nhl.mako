@@ -147,7 +147,7 @@ ${main()}
     <div class="row">
         <div class="col-md-1">&nbsp;</div>
 
-        <div class="col-md-4 team">
+        <div class="col-md-4">
             <div class="pull-left hometeam teamNames">
                 ${matchup.home}<br>
                 <img src="${matchup.homeimg}" class="teamLogo img-responsive hometeamimg">
@@ -156,7 +156,7 @@ ${main()}
         <div class="col-md-2 text-center lead">
             Vs
         </div>
-        <div class="col-md-4 team teamNames">
+        <div class="col-md-4 teamNames">
             <div class="awayteam pull-right">
                 ${matchup.away}<br>
                 <img src="${matchup.awayimg}" class="teamLogo img-responsive awayteamimg">

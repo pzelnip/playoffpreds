@@ -3,10 +3,6 @@ body {
 	background-size: 100% 500px;
 }
 
-.centerblock {
-
-}
-
 .teamNames {
 	font-family: 'Ubuntu',sans-serif;
 	font-size: 18px;
@@ -36,15 +32,6 @@ body {
 	content: "Away - ";
 }
 
-.vsCenter {
-    display: inline-block;
-    height: 130px;
-}
-
-.team {
-
-}
-
 .teamLogo {
 	width: 100px;
 	height: 100px;
@@ -57,7 +44,6 @@ body {
 }
 
 .result {
-
 	font-family: Lato,sans-serif;
 	font-weight: 500;
 	color: #333;
