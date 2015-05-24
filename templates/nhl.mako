@@ -1,18 +1,20 @@
 ${main()}
 
 <%def name="main()">
-    ${top_base(rounds)}
+    <html>
+    ${head_element()}
+    <body>
 
+    ${top_base(rounds)}
     ${dump_rounds(rounds)}
     ${dump_score_summary(score_summary)}
-
-
     ${bottom_base()}
 
+    </body>
+    </html>
 </%def>
 
-<%def name="top_base(rounds)">
-    <html>
+<%def name="head_element()">
     <head>
         <link rel="stylesheet" type="text/css" href="static/nhl.css">
         <title>Playoff Predictions</title>
@@ -22,82 +24,82 @@ ${main()}
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
         <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
     </head>
-    <body>
+</%def>
+
+<%def name="top_base(rounds)">
 
     ${navbar_render(rounds)}
 
     <div class="container">
         <div class="jumbotron">
-        <h2>Pedle's Family Playoff Predictions</h2>
-        <p>Every year my wife & I make our NHL playoff predictions.  This year my 4 year old daughter joined in on the fun.  Below is the results</p>
+            <h2>Pedle's Family Playoff Predictions</h2>
+            <p>Every year my wife & I make our NHL playoff predictions.  This year my 4 year old daughter joined in on the fun.  Below is the results</p>
         </div>
     </div>
 </%def>
 
 
 <%def name="navbar_render(rounds)">
-    <nav class="navbar navbar-inverse">
-      <div class="container-fluid">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>                        
-          </button>
-          <a class="navbar-brand" href="#">PlayoffPreds</a>
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>                        
+                </button>
+                <a class="navbar-brand" href="#">PlayoffPreds</a>
+            </div>
+            <div>
+                <div class="collapse navbar-collapse" id="myNavbar">
+                    <ul class="nav navbar-nav">
+                        %for round in rounds:
+                            <li><a href="#round${round.number}">Round ${round.number}</a></li>
+                        %endfor
+                        <li><a href="#totals">Totals</a></li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li>
+                            <a href="https://github.com/pzelnip/playoffpreds">
+                                <span class="glyphicon glyphicon-cutlery"></span>
+                                Fork Me On Github
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
         </div>
-        <div class="collapse navbar-collapse" id="myNavbar">
-          <ul class="nav navbar-nav">
-            <li class="active"><a href="#">Home</a></li>
-            %for round in rounds:
-                <li><a href="#round${round.number}">Round ${round.number}</a></li>
-            %endfor
-            <li><a href="#totals">Totals</a></li>
-          </ul>
-        <ul class="nav navbar-nav navbar-right">
-            <li><a href="https://github.com/pzelnip/playoffpreds">
-                <span class="glyphicon glyphicon-cutlery">
-                </span> Fork Me On Github
-                    </a></li>
-          </ul>
-        </div>
-      </div>
     </nav>
-
 </%def>
 
 <%def name="bottom_base()">
-        </div> <!-- class="row"> -->
-        <br><br><br><br><br><br>
-        <div class="text-center smalltext text-muted">
+    <br><br><br><br><br><br>
+    <div class="text-center smalltext text-muted">
         <a href="http://www.sportsnet.ca/hockey/nhl/playoffs/">Sportsnet.ca NHL Playoffs</a>
          - 
         <a href="static/playoffs.json">View JSON</a>
-
-    </div> <!-- container -->
-
-    </body>
-    </html>
+    </div>
 </%def>
 
 <%def name="dump_score_summary(score_summary)">
     <br><br><br>
 
-    <a name="totals"></a>
-    <div class="scoreSummary text-center">
-        <h3 class="totalsHeading text-center">Totals</h3>
+    <div id="totals">
+        <div class="scoreSummary text-center">
+            <h3 class="totalsHeading text-center">Totals</h3>
 
-        %for round_score in score_summary.round_scores:
-            ${dump_round_score(round_score)}
-        %endfor
+            %for round_score in score_summary.round_scores:
+                ${dump_round_score(round_score)}
+            %endfor
 
-        <h2 class="text-center">Final Totals</h2>
-        %for player_score in score_summary.final_score.scores:
-            ${dump_prediction_score(player_score.name,
-                player_score.score, 
-                score_summary.final_score.possible,
-                player_score.percent)}
-        %endfor
+            <h2 class="text-center">Final Totals</h2>
+            %for player_score in score_summary.final_score.scores:
+                ${dump_prediction_score(player_score.name,
+                    player_score.score, 
+                    score_summary.final_score.possible,
+                    player_score.percent)}
+            %endfor
+        </div>
     </div>
 </%def>
 
@@ -129,50 +131,52 @@ ${main()}
 </%def>
 
 <%def name="dump_round(round)">
-    <div class="container">
-        <div class="row">
-        <a name="round${round.number}">
-        <h2 class="roundTitle text-center">Round ${round.number}</h2>
-        </a>
-        </div>
+    <div id="round${round.number}" class="round-container">
+        <div class="container">
+            <div class="row">
+                <h2 class="roundTitle text-center">Round ${round.number}</h2>
+                </a>
+            </div>
 
-    %for matchup in round.matchups:
-        ${dump_matchup(matchup)}
-    %endfor
-
-    </div> <!-- container -->
+            %for matchup in round.matchups:
+                ${dump_matchup(matchup)}
+            %endfor
+        </div> <!-- container -->
+    </div> <!-- id=round... -->
 </%def>
 
 <%def name="dump_matchup(matchup)">
-    <div class="row">
-        <div class="col-md-1">&nbsp;</div>
+    <div class="matchup-container">
+        <div class="row">
+            <div class="col-md-1">&nbsp;</div>
 
-        <div class="col-md-4">
-            <div class="pull-left hometeam teamNames">
-                ${matchup.home}<br>
-                <img src="${matchup.homeimg}" class="teamLogo img-responsive hometeamimg">
+            <div class="col-md-4">
+                <div class="pull-left hometeam teamNames">
+                    ${matchup.home}<br>
+                    <img src="${matchup.homeimg}" class="teamLogo img-responsive hometeamimg">
+                </div>
             </div>
-        </div>
-        <div class="col-md-2 text-center lead">
-            Vs
-        </div>
-        <div class="col-md-4 teamNames">
-            <div class="awayteam pull-right">
-                ${matchup.away}<br>
-                <img src="${matchup.awayimg}" class="teamLogo img-responsive awayteamimg">
+            <div class="col-md-2 text-center lead">
+                Vs
             </div>
+            <div class="col-md-4 teamNames">
+                <div class="awayteam pull-right">
+                    ${matchup.away}<br>
+                    <img src="${matchup.awayimg}" class="teamLogo img-responsive awayteamimg">
+                </div>
+            </div>
+            <div class="col-md-1">&nbsp;</div>
         </div>
-        <div class="col-md-1">&nbsp;</div>
+        <div class="row text-center result">
+            ${matchup.result}
+        </div>
+        <div class="row">
+            %for prediction in matchup.predictions:
+                ${dump_prediction(prediction)}
+            %endfor
+        </div>
     </div>
-    <div class="row text-center result">
-        ${matchup.result}
-    </div>
-    <div class="row">
-        %for prediction in matchup.predictions:
-            ${dump_prediction(prediction)}
-        %endfor
-    </div>
-    <br> <br> <br> <br> <br> <br>
+    <br> <br> <br>
 
 </%def>
 
