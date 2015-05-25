@@ -171,6 +171,7 @@ def history():
         Image('static/hist4.png', 'Subtle Additions', 'Home & Away captions via CSS, subtle layout changes', 1280, 747),
         Image('static/hist5.png', 'Fork Me On Github', '', 1280, 723),
         Image('static/hist6.png', 'Bootstrap is a Thing', 'Navbar, jumbotron, improvements to layout', 1280, 667),
+        Image('static/hist7.png', 'More Bootstrap', 'Navbar fixed, panels', 1280, 612),
     ]}
     return render_template('history.mako', **extra_vars)
 
