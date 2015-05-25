@@ -1,4 +1,5 @@
 import json
+import struct
 from collections import defaultdict, namedtuple
 from operator import itemgetter
 
@@ -23,6 +24,21 @@ POINTS_FOR_WINNING_TEAM = 2
 POINTS_FOR_NUMBER_OF_GAMES = 1
 POINTS_PER_SERIES = POINTS_FOR_WINNING_TEAM + POINTS_FOR_NUMBER_OF_GAMES
 
+
+def get_image_info(fname):
+    ''' Get the dimensions of the image indicated by fname.  Must be a
+    PNG file.  Taken from http://stackoverflow.com/a/21555489/808804 '''
+    def is_png(data):
+        return (data[:8] == '\211PNG\r\n\032\n'and (data[12:16] == 'IHDR'))
+    with open(fname, 'rb') as f:
+        data = f.read(25)
+    if is_png(data):
+        w, h = struct.unpack('>LL', data[16:24])
+        width = int(w)
+        height = int(h)
+    else:
+        raise Exception('not a png image')
+    return width, height
 
 def team_img(team):
     imgmap = {
@@ -159,20 +175,22 @@ def nhl():
 
     return render_template('nhl.mako', **extra_vars)
 
-@app.route('/history')
-def history():
+
+def __get_history_images(data_path):
+    with open(data_path, 'r') as fobj:
+        content = "".join(fobj.readlines())
+    history_imgs = json.loads(content)
+
     Image = namedtuple('Image', ['url', 'title', 'description', 
         'width', 'height'])
 
-    extra_vars = {'images' : [
-        Image('static/hist1.png', 'Just A Dump', 'Initially this was a &lt;pre&gt; tag wrapping raw text.', 999, 743),
-        Image('static/hist2.png', 'Team Logos &amp; Some HTML', 'First HTML layout attempt, using a lot of DIVs and raw CSS by hand', 1280, 731),
-        Image('static/hist3.png', 'CSS Experimentation', 'Then I started experimenting with crazy CSS looks', 1274, 708),
-        Image('static/hist4.png', 'Subtle Additions', 'Home & Away captions via CSS, subtle layout changes', 1280, 747),
-        Image('static/hist5.png', 'Fork Me On Github', '', 1280, 723),
-        Image('static/hist6.png', 'Bootstrap is a Thing', 'Navbar, jumbotron, improvements to layout', 1280, 667),
-        Image('static/hist7.png', 'More Bootstrap', 'Navbar fixed, panels', 1280, 612),
-    ]}
+    return [Image(img['filename'], img['title'], img['description'], *(get_image_info(img['filename']))) 
+        for img in history_imgs]
+
+
+@app.route('/history')
+def history():
+    extra_vars = {'images' : __get_history_images('static/history.json')}
     return render_template('history.mako', **extra_vars)
 
 if __name__ == "__main__":
