@@ -31,7 +31,7 @@ ${main()}
     ${navbar_render(rounds)}
 
     <div class="container">
-        <div class="jumbotron">
+        <div class="jumbotron" style="margin-top: 80px;">
             <h2>Pedle's Family Playoff Predictions</h2>
             <p>Every year my wife & I make our NHL playoff predictions.  This year my 4 year old daughter joined in on the fun.  Below is the results</p>
         </div>
