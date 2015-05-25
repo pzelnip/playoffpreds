@@ -1,0 +1,37 @@
+[
+	{
+		"filename" : "static/hist1.png",
+		"title" : "Just A Dump",
+		"description" : "Initially this was a &lt;pre&gt; tag wrapping raw text."
+	},
+	{
+		"filename" : "static/hist2.png",
+		"title" : "Team Logos &amp; Some HTML",
+		"description" : "First HTML layout attempt, using a lot of DIVs and raw CSS by hand"
+	},
+	{
+		"filename" : "static/hist3.png",
+		"title" : "CSS Experimentation",
+		"description" : "Then I started experimenting with crazy CSS looks"
+	},
+	{
+		"filename" : "static/hist4.png",
+		"title" : "Subtle Additions",
+		"description" : "Home & Away captions via CSS, subtle layout changes"
+	},
+	{
+		"filename" : "static/hist5.png",
+		"title" : "Fork Me On Github",
+		"description" : ""
+	},
+	{
+		"filename" : "static/hist6.png",
+		"title" : "Bootstrap is a Thing",
+		"description" : "Navbar, jumbotron, improvements to layout"
+	},
+	{
+		"filename" : "static/hist7.png",
+		"title" : "More Bootstrap",
+		"description" : "Navbar fixed, panels"
+	}
+]
