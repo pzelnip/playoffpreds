@@ -85,7 +85,7 @@ ${main()}
     <br><br><br>
 
     <div id="totals">
-        <div class="scoreSummary text-center">
+        <div class="scoreSummary text-center well">
             <h3 class="totalsHeading text-center">Totals</h3>
 
             %for round_score in score_summary.round_scores:
@@ -170,7 +170,7 @@ ${main()}
                 </div>
                 <div class="col-md-1">&nbsp;</div>
             </div>
-            <div class="row text-center result">
+            <div class="row text-center result bg-info lead">
                 ${matchup.result}
             </div>
             <div class="row">
@@ -188,7 +188,7 @@ ${main()}
         <div class="col-md-4 text-right">
             ${prediction.predictor} says ${prediction.team} in ${prediction.games}
         </div>
-        <div class="col-md-4 text-left">
+        <div class="col-md-4 text-left ">
             ${prediction.outcome}
         </div>
         <div class="col-md-2"> </div>
