@@ -138,46 +138,48 @@ ${main()}
                 </a>
             </div>
 
-            %for matchup in round.matchups:
-                ${dump_matchup(matchup)}
-            %endfor
+            <div class="panel-group">
+                %for matchup in round.matchups:
+                    ${dump_matchup(matchup)}
+                %endfor
+            </div>
         </div> <!-- container -->
     </div> <!-- id=round... -->
 </%def>
 
 <%def name="dump_matchup(matchup)">
-    <div class="matchup-container">
-        <div class="row">
-            <div class="col-md-1">&nbsp;</div>
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-1">&nbsp;</div>
 
-            <div class="col-md-4">
-                <div class="pull-left hometeam teamNames">
-                    ${matchup.home}<br>
-                    <img src="${matchup.homeimg}" class="teamLogo img-responsive hometeamimg">
+                <div class="col-md-4">
+                    <div class="pull-left hometeam teamNames">
+                        ${matchup.home}<br>
+                        <img src="${matchup.homeimg}" class="teamLogo img-responsive hometeamimg">
+                    </div>
                 </div>
-            </div>
-            <div class="col-md-2 text-center lead">
-                Vs
-            </div>
-            <div class="col-md-4 teamNames">
-                <div class="awayteam pull-right">
-                    ${matchup.away}<br>
-                    <img src="${matchup.awayimg}" class="teamLogo img-responsive awayteamimg">
+                <div class="col-md-2 text-center lead">
+                    Vs
                 </div>
+                <div class="col-md-4 teamNames">
+                    <div class="awayteam pull-right">
+                        ${matchup.away}<br>
+                        <img src="${matchup.awayimg}" class="teamLogo img-responsive awayteamimg">
+                    </div>
+                </div>
+                <div class="col-md-1">&nbsp;</div>
             </div>
-            <div class="col-md-1">&nbsp;</div>
-        </div>
-        <div class="row text-center result">
-            ${matchup.result}
-        </div>
-        <div class="row">
-            %for prediction in matchup.predictions:
-                ${dump_prediction(prediction)}
-            %endfor
+            <div class="row text-center result">
+                ${matchup.result}
+            </div>
+            <div class="row">
+                %for prediction in matchup.predictions:
+                    ${dump_prediction(prediction)}
+                %endfor
+            </div>
         </div>
     </div>
-    <br> <br> <br>
-
 </%def>
 
 <%def name="dump_prediction(prediction)">
